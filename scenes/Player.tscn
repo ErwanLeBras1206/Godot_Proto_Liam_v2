@@ -430,7 +430,7 @@ size = Vector2(20, 34)
 [node name="Player" type="Node2D" unique_id=1053636194 groups=["player"]]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1342271219]
-z_index = 1
+z_index = 2
 script = ExtResource("1_bruh7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=523698530]
@@ -440,6 +440,8 @@ animation = &"walk_right"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1486637354]
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_ku51j")
+
+[node name="ShadowAnchor" type="Marker2D" parent="CharacterBody2D" unique_id=2116075942]
 
 [node name="Label" type="Label" parent="CharacterBody2D" unique_id=236490388]
 anchors_preset = 5

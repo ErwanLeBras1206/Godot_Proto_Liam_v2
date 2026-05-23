@@ -1,11 +1,11 @@
 extends Node2D
 
 @export var tile_size = 32
-@export var grid_width = 26
-@export var grid_height = 15
+@export var grid_width = 14
+@export var grid_height = 10
 
 #get node grid
-@onready var grid = get_node("/root/World/Grid")
+@onready var grid = get_node("/root/Main/World/GridOverlay/Grid")
 
 func _draw():
 
@@ -14,14 +14,14 @@ func _draw():
 			draw_line(
 			Vector2(x * tile_size, 0),
 			Vector2(x * tile_size, grid_height * tile_size),
-			Color.WHITE
+			Color(1, 1, 1, 0.3)
 			)
 
 	for y in range(grid_height + 1):
 		draw_line(
 			Vector2(0, y * tile_size),
 			Vector2(grid_width * tile_size, y * tile_size),
-			Color.WHITE
+			Color(1, 1, 1, 0.3)
 			)
 
 # Called when the node enters the scene tree for the first time.

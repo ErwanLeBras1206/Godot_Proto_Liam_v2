@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@onready var world_controller = get_node("/root/World/WorldController")
+@onready var world_controller = get_node("/root/Main/World")
 
 # Use to set the speed as a parameter of CharacterBody2D, can be modified directly theree
 @export var speed = 200
@@ -12,6 +12,10 @@ var entity_name = "PlayerConnected"
 
 #define the first position of character
 var last_direction = "front"
+
+#define position of player on grid when fight
+@export var cell_size := 32
+var grid_pos := Vector2i(0, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:	
@@ -25,8 +29,8 @@ func _ready() -> void:
 	#Define start position for character
 	position = Vector2(200, 100)
 		
-	#increase character size x2
-	$AnimatedSprite2D.scale = Vector2(2, 2)
+	#increase character size x1.5
+	$AnimatedSprite2D.scale = Vector2(1.5, 1.5)
 	scale = Vector2(1, 1)	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -80,3 +84,10 @@ func update_animation(direction):
 				$AnimatedSprite2D.play("idle_left")
 			"right":
 				$AnimatedSprite2D.play("idle_right")
+
+#function to put the player on grid
+func update_world_position():
+	position = Vector2(
+		 grid_pos.x * cell_size + cell_size / 2 - 1,
+		 grid_pos.y * cell_size + cell_size / 2 - 7
+		 )

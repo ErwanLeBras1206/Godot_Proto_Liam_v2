@@ -16,3 +16,14 @@ Décision :
 Pourquoi :
 - meilleure lisibilité du système tactique
 - futur ajout de zones (PM, attaques)
+
+## 23/05/2026 - Refonte projet passage mode combat / mode exploration
+
+
+Décision :
+- refonte du projet
+- mode combat avec la grille zoom caméra
+- mode exploration
+
+Pourquoi :
+- essayer d'avoir une architecture propre

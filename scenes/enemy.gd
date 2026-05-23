@@ -1,7 +1,7 @@
-extends Area2D
+extends CharacterBody2D
 
 #get access to the WorldController node
-@onready var world_controller = get_node("/root/World/WorldController")
+@onready var world_controller = get_node("/root/Main//World")
 
 # Use to set the speed as a parameter of CharacterBody2D, can be modified directly theree
 @export var speed = 200
@@ -12,6 +12,10 @@ extends Area2D
 var entity_name = "Bouftou"
 
 var hovered = false
+
+#define position of enemies on grid when fight
+@export var cell_size := 32
+var grid_pos := Vector2i(0, 0)
 
 func _ready() -> void:
 	#Define start position for character
@@ -31,6 +35,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_mouse_entered() -> void:
 	hovered = true
+	print(hovered)
 	print("affiche les infos de l'ennemi")
 
 func _on_mouse_exited() -> void:
@@ -41,3 +46,10 @@ func _input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.pressed:
 				world_controller.start_combat()
+
+#function to put the enemy on grid
+func update_world_position():
+	position = Vector2(
+		 grid_pos.x * cell_size + cell_size / 2 - 1,
+		 grid_pos.y * cell_size + cell_size / 2 - 4
+		 )

@@ -10,12 +10,23 @@ enum GameState {
 	PAUSE
 }
 #get node world controller
-@onready var world_controller = get_node("/root/World/WorldController")
+@onready var world_controller = get_node("/root/Main/World")
 #get node grid
-@onready var grid = get_node("/root/World/Grid")
+@onready var grid = get_node("/root/Main/World/GridOverlay/Grid")
+#get player
+@onready var player = get_node("/root/Main/World/Units/PlayerUnit")
+#get enemies
+@onready var enemies = get_node("/root/Main/World/Units/EnemyUnits")
+#get camera
+@onready var camera = get_node("/root/Main/World/Camera2D")
+#get arena center
+@onready var arena_center = $ArenaCenter
 
+#define that the game begin by exploration
 var current_state = GameState.EXPLORATION
 
+#save the actual player position
+var player_saved_position : Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -45,6 +56,16 @@ func _ready() -> void:
 	print("v0.4")
 	print("ELB")
 	print("****************************")
+	print("Refonte projet")
+	print("2026/05/20")
+	print("v0.5")
+	print("ELB")
+	print("****************************")
+	print("Passage mode combat en mode exploration")
+	print("2026/05/23")
+	print("v0.6")
+	print("ELB")
+	print("****************************")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -59,6 +80,13 @@ func _input(event):
 	if event.is_action_pressed("Combat_Mode"):
 		print("C pressed : combat mode !")
 		start_combat()
+		
+	if event.is_action_pressed("Abandoned"):
+		print("A pressed : used to stop fight")
+		if world_controller.current_state == world_controller.GameState.COMBAT	:
+			#set the actual position of player					
+			player.global_position = player_saved_position
+			start_exploration()
 	
 	if world_controller.current_state != world_controller.GameState.EXPLORATION:
 		return
@@ -82,12 +110,65 @@ func toggle_names():
 		label1.visible = !label1.visible
 
 func start_combat():
+	#save the actual position of player
+	player_saved_position = get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").global_position
+	print(player_saved_position)
+	#set the game state to FIGHT
 	current_state = GameState.COMBAT
 	grid.visible = true
-	grid.position = Vector2(224, 128)
+	grid.position = Vector2(414, 224)
+	#place the player on the grid
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").grid_pos = Vector2i(25,15)
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").update_world_position()
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D/AnimatedSprite2D").scale = Vector2(0.8, 0.8)	
+	#place the enemies on the grid	
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").grid_pos = Vector2i(15,7)	
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").update_world_position()
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D/AnimatedSprite2D").scale = Vector2(0.16, 0.16)
+	#add the shadow circle
+	get_parent().get_node("/root/Main/World/GridOverlay").set_positions(
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").grid_pos,
+	[
+		get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").grid_pos
+	]
+)
+	
+	var tween = create_tween()
+
+	tween.parallel().tween_property(
+		camera,
+		"zoom",
+		Vector2(1.6, 1.6),
+		0.4
+	)
+
+	tween.parallel().tween_property(
+		camera,
+		"global_position",
+		arena_center.global_position,
+		0.4
+	)
+		
 	print("Combat started")
 
 func start_exploration():
 	current_state = GameState.EXPLORATION
 	grid.visible = false
+	
+	var tween = create_tween()
+
+	tween.parallel().tween_property(
+		camera,
+		"zoom",
+		Vector2(1.0, 1.0),
+		0.4
+	)
+	
+	#put the player position at its position before fight
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").position = player_saved_position
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D/AnimatedSprite2D").scale = Vector2(1.5, 1.5)
+	
+	#remove shadow circles
+	get_parent().get_node("/root/Main/World/GridOverlay").clear_circles()
+	
 	print("Exploration started")
