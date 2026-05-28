@@ -9,3 +9,7 @@
 - Mise en place GridOverlay (shadow circles)
 - Passage mode exploration à mode combat
 - Grille
+
+## 28/05/2026
+
+- Amélioration passage mode exploration/mode combat

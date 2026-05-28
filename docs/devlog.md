@@ -27,3 +27,14 @@ Décision :
 
 Pourquoi :
 - essayer d'avoir une architecture propre
+
+## 28/05/2026 - Mode combat / mode exploration
+
+
+Décision :
+- mode combat personnage qui fait face au monstre
+- mode exploration avec personnage qui revient à sa position à la fin du combat
+- passage mode exploration mode combat ok
+
+Pourquoi :
+- pour valider le passage entre mode exploration et mode combat

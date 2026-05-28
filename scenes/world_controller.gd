@@ -84,8 +84,7 @@ func _input(event):
 	if event.is_action_pressed("Abandoned"):
 		print("A pressed : used to stop fight")
 		if world_controller.current_state == world_controller.GameState.COMBAT	:
-			#set the actual position of player					
-			player.global_position = player_saved_position
+			#set the actual position of player	
 			start_exploration()
 	
 	if world_controller.current_state != world_controller.GameState.EXPLORATION:
@@ -115,11 +114,15 @@ func start_combat():
 	print(player_saved_position)
 	#set the game state to FIGHT
 	current_state = GameState.COMBAT
+	#grid is visible
 	grid.visible = true
+	#put the grid at the good place
 	grid.position = Vector2(414, 224)
-	#place the player on the grid
+	#place the player on the grid and put it in	
+	
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D/AnimatedSprite2D").play("idle_back")
 	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").grid_pos = Vector2i(25,15)
-	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").update_world_position()
+	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").update_world_position()	
 	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D/AnimatedSprite2D").scale = Vector2(0.8, 0.8)	
 	#place the enemies on the grid	
 	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").grid_pos = Vector2i(15,7)	
@@ -167,8 +170,24 @@ func start_exploration():
 	#put the player position at its position before fight
 	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").position = player_saved_position
 	get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D/AnimatedSprite2D").scale = Vector2(1.5, 1.5)
-	
+		
 	#remove shadow circles
 	get_parent().get_node("/root/Main/World/GridOverlay").clear_circles()
 	
+	#remove the mob from the map*
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").visible = false
+	
 	print("Exploration started")
+	
+	#wait a little time
+	await get_tree().create_timer(3.0).timeout
+	
+	#visible to true
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").visible = true
+	#spawn again the mob in the middle of the arena
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D").global_position = arena_center.global_position
+	#animated sprite 2D
+	get_parent().get_node("/root/Main/World/Units/EnemyUnits/CharacterBody2D/AnimatedSprite2D").scale = Vector2(0.5, 0.5)
+	
+	print("A monster has spawned on the map")
+	

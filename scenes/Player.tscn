@@ -435,7 +435,7 @@ script = ExtResource("1_bruh7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=523698530]
 sprite_frames = SubResource("SpriteFrames_2kajp")
-animation = &"walk_right"
+animation = &"idle_back"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1486637354]
 position = Vector2(0, -1.5)
