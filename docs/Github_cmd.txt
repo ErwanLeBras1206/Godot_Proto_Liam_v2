@@ -1,0 +1,4 @@
+cd "C:\Bureau\Erwan\Projet\LIAM\Proto\LIAM_Proto_v2"
+git init
+git add .
+git commit -m "Prototype combat v0.5"
