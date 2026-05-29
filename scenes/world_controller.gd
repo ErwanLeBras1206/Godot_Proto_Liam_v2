@@ -6,6 +6,7 @@ var show_all_labels = false
 #define state for game
 enum GameState {
 	EXPLORATION,
+	PLACEMENT,
 	COMBAT,
 	PAUSE
 }
@@ -21,7 +22,8 @@ enum GameState {
 @onready var camera = get_node("/root/Main/World/Camera2D")
 #get arena center
 @onready var arena_center = $ArenaCenter
-
+#get fight popup
+@onready var combat_popup = get_node("/root/Main/World/CombatPopup")
 #define that the game begin by exploration
 var current_state = GameState.EXPLORATION
 
@@ -66,7 +68,17 @@ func _ready() -> void:
 	print("v0.6")
 	print("ELB")
 	print("****************************")
-
+	print("Passage mode combat")
+	print("2026/05/29")
+	print("v0.7")
+	print("ELB")
+	print("****************************")
+	#remove shadow circles
+	get_parent().get_node("/root/Main/World/GridOverlay").clear_circles()
+	
+	#hide the confirmation popup
+	combat_popup.hide()
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
@@ -83,7 +95,7 @@ func _input(event):
 		
 	if event.is_action_pressed("Abandoned"):
 		print("A pressed : used to stop fight")
-		if world_controller.current_state == world_controller.GameState.COMBAT	:
+		if world_controller.current_state == world_controller.GameState.COMBAT or world_controller.GameState.PLACEMENT 	:
 			#set the actual position of player	
 			start_exploration()
 	
@@ -112,8 +124,8 @@ func start_combat():
 	#save the actual position of player
 	player_saved_position = get_parent().get_node("/root/Main/World/Units/PlayerUnit/CharacterBody2D").global_position
 	print(player_saved_position)
-	#set the game state to FIGHT
-	current_state = GameState.COMBAT
+	#set the game state to preparation
+	current_state = GameState.PLACEMENT
 	#grid is visible
 	grid.visible = true
 	#put the grid at the good place
@@ -141,7 +153,7 @@ func start_combat():
 	tween.parallel().tween_property(
 		camera,
 		"zoom",
-		Vector2(1.6, 1.6),
+		Vector2(1.3, 1.3),
 		0.4
 	)
 
@@ -191,3 +203,7 @@ func start_exploration():
 	
 	print("A monster has spawned on the map")
 	
+
+
+func _on_combat_popup_confirmed() -> void:
+	start_combat()

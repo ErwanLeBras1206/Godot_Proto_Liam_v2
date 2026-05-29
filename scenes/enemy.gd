@@ -42,11 +42,13 @@ func _on_mouse_exited() -> void:
 	hovered = false
 
 func _input_event(viewport, event, shape_idx):
-
-		if event is InputEventMouseButton:
-			if event.pressed:
-				world_controller.start_combat()
-
+	if world_controller.current_state != world_controller.GameState.EXPLORATION:
+		return
+		
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			world_controller.combat_popup.popup_centered()
+		
 #function to put the enemy on grid
 func update_world_position():
 	position = Vector2(

@@ -53,7 +53,7 @@ func _process(delta: float) -> void:
 	move_and_slide()
 	#character can't go outside the window
 	position.x = clamp(position.x, 32, map_size_x-32)
-	position.y = clamp(position.y,32, map_size_y-32)
+	position.y = clamp(position.y,32, map_size_y-152)
 	
 	update_animation(direction)
 	
