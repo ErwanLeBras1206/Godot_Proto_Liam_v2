@@ -38,3 +38,12 @@ Décision :
 
 Pourquoi :
 - pour valider le passage entre mode exploration et mode combat
+
+## 08/06/2026 - Début du HUD
+
+
+Décision :
+- préparation du HUD pour le combat
+
+Pourquoi :
+- le HUD est nécessaire car il y aura le bouton Prêt pour démarrer le combat + le timer

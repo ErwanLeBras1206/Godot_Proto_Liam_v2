@@ -13,3 +13,7 @@
 ## 28/05/2026
 
 - Amélioration passage mode exploration/mode combat
+
+## 08/06/2026
+
+- Début du HUD, personnage principal portrait et barre d'XP

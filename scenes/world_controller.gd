@@ -73,6 +73,10 @@ func _ready() -> void:
 	print("v0.7")
 	print("ELB")
 	print("****************************")
+	print("Début du HUD")
+	print("2026/06/08")
+	print("v0.7")
+	print("ELB")
 	#remove shadow circles
 	get_parent().get_node("/root/Main/World/GridOverlay").clear_circles()
 	
